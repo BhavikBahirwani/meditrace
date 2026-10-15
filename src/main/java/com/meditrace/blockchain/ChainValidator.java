@@ -37,7 +37,10 @@ public class ChainValidator implements Runnable {
         this.intervalSeconds = intervalSeconds;
     }
 
-    /** Schedules {@link #run()} immediately and then every {@code intervalSeconds}. */
+    /** Delay before the first check, so the Miner can first seal transactions queued at start-up. */
+    private static final long INITIAL_DELAY_SECONDS = 5;
+
+    /** Schedules {@link #run()} after a short delay and then every {@code intervalSeconds}. */
     public synchronized void start() {
         if (scheduler != null) {
             return;
@@ -47,7 +50,7 @@ public class ChainValidator implements Runnable {
             t.setDaemon(true);
             return t;
         });
-        scheduler.scheduleAtFixedRate(this, 0, intervalSeconds, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this, INITIAL_DELAY_SECONDS, intervalSeconds, TimeUnit.SECONDS);
         LOG.info("Chain validator scheduled every " + intervalSeconds + "s");
     }
 

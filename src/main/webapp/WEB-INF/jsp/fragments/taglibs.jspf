@@ -1,0 +1,6 @@
+<%--
+    Automatically included at the top of EVERY .jsp (configured as include-prelude in web.xml),
+    so each page has UTF-8 output and the JSTL tag libraries without repeating these lines.
+--%><%@ page contentType="text/html; charset=UTF-8" %><%@
+ taglib prefix="c" uri="jakarta.tags.core" %><%@
+ taglib prefix="fn" uri="jakarta.tags.functions" %>

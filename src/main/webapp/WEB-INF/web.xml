@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    MediTrace deployment descriptor (Jakarta Servlet 6.0 / Tomcat 10.1).
+    Servlets and the listener are registered with annotations (@WebServlet, @WebListener).
+    Filters are declared HERE because web.xml is the only place that guarantees their ORDER:
+    EncodingFilter must run before AuthFilter.
+-->
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>MediTrace</display-name>
+
+    <!-- 1. UTF-8 + security headers for every request -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.meditrace.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 2. Role-based access control for the three private areas -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.meditrace.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/manufacturer/*</url-pattern>
+        <url-pattern>/distributor/*</url-pattern>
+        <url-pattern>/pharmacy/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Sessions expire after 30 idle minutes; the cookie is hidden from JavaScript. -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <!--
+        JSP settings: every file is UTF-8 (needed for the ₹ sign), and every page automatically
+        starts with taglibs.jspf (JSTL declarations), so pages stay short.
+    -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <include-prelude>/WEB-INF/jsp/fragments/taglibs.jspf</include-prelude>
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+        <jsp-property-group>
+            <url-pattern>*.jspf</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
+
+    <!-- Friendly error pages instead of Tomcat's stack traces -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/jsp/error.jsp</location>
+    </error-page>
+</web-app>

@@ -1,0 +1,38 @@
+<%--
+    Batch / stock list. Before including, set:
+      stockTitle  - card heading
+      linkBatches - true to link each batch to its detail page (manufacturers only)
+--%>
+<section class="card">
+    <h2><c:out value="${stockTitle}"/></h2>
+    <c:choose>
+        <c:when test="${empty view.stock}">
+            <p class="empty">Nothing here yet.</p>
+        </c:when>
+        <c:otherwise>
+            <ul class="list">
+                <c:forEach var="s" items="${view.stock}">
+                    <li>
+                        <span class="main">
+                            <span class="title">
+                                <c:choose>
+                                    <c:when test="${linkBatches}">
+                                        <a class="mono" href="${ctx}/manufacturer/batches?no=${fn:escapeXml(s.batchNo)}"><c:out value="${s.batchNo}"/></a>
+                                    </c:when>
+                                    <c:otherwise><span class="mono"><c:out value="${s.batchNo}"/></span></c:otherwise>
+                                </c:choose>
+                                · <c:out value="${s.productName}"/>
+                            </span>
+                            <span class="sub">MRP ${s.mrpText} · Exp ${s.expiryText}</span>
+                        </span>
+                        <span class="side">
+                            <c:if test="${s.recalled}"><span class="pill tampered">Recalled</span><br></c:if>
+                            <strong>${s.inChain}</strong> in chain<br>
+                            <span class="muted">${s.sold} sold</span>
+                        </span>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:otherwise>
+    </c:choose>
+</section>

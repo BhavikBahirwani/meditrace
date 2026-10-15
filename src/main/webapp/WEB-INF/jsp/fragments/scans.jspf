@@ -1,0 +1,22 @@
+<%-- Latest customer scans of this user's packs, with the result colour. --%>
+<section class="card">
+    <h2>Recent customer scans</h2>
+    <c:choose>
+        <c:when test="${empty view.recentScans}">
+            <p class="empty">No customer has scanned these packs yet.</p>
+        </c:when>
+        <c:otherwise>
+            <ul class="list">
+                <c:forEach var="s" items="${view.recentScans}">
+                    <li>
+                        <span class="main">
+                            <a class="title mono" href="${ctx}/verify?code=${fn:escapeXml(s.packCode)}"><c:out value="${s.packCode}"/></a>
+                            <span class="sub"><c:out value="${empty s.city ? 'Location not shared' : s.city}"/> · ${s.scannedAtText}</span>
+                        </span>
+                        <span class="side"><span class="pill ${s.result.cssClass}">${s.result.label}</span></span>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:otherwise>
+    </c:choose>
+</section>

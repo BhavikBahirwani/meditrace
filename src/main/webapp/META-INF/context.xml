@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Tomcat-specific settings for MediTrace.
+    sameSiteCookies="lax": the browser will not send the session cookie with form POSTs
+    coming from other websites, a simple defence against cross-site request forgery.
+-->
+<Context>
+    <CookieProcessor sameSiteCookies="lax"/>
+</Context>

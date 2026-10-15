@@ -1,0 +1,15 @@
+<%-- Dashboard header painted in the role's area colour (--area). Needs request attribute "user". --%>
+<section class="dash-header">
+    <div class="container">
+        <div>
+            <span class="pill"><c:out value="${user.role.displayName}"/> dashboard</span>
+            <h1 style="margin-top:10px"><c:out value="${user.company}"/></h1>
+            <p><c:out value="${user.city}"/> · signed in as <c:out value="${user.fullName}"/>
+                <c:if test="${not empty user.licenseNo}"> · Licence <span class="mono"><c:out value="${user.licenseNo}"/></span></c:if></p>
+            <p class="small" style="margin-top:6px"><c:out value="${user.responsibility}"/></p>
+        </div>
+        <div class="actions">
+            <a class="btn btn-light btn-sm" href="${ctx}/">Verify a pack</a>
+        </div>
+    </div>
+</section>

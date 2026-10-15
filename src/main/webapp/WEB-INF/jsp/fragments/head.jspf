@@ -1,0 +1,21 @@
+<%--
+    Shared <head> + opening <body>. Statically included first by every page.
+    Before including, a page may set:
+      pageTitle  - text for the browser tab
+      bodyClass  - e.g. "area-pharmacy" to switch the area colour
+    (Taglibs come from taglibs.jspf, the include-prelude configured in web.xml.)
+--%><c:set var="ctx" value="${pageContext.request.contextPath}"/><!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MediTrace - blockchain-based medicine traceability for India. Scan a pack to check it is genuine.">
+    <meta name="theme-color" content="#6B0CF0">
+    <title><c:out value="${empty pageTitle ? 'MediTrace' : pageTitle.concat(' · MediTrace')}"/></title>
+    <link rel="icon" href="${ctx}/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Atkinson+Hyperlegible+Next:wght@400;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="${ctx}/css/style.css">
+</head>
+<body class="${fn:escapeXml(bodyClass)}">

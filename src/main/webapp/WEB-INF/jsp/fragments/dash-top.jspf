@@ -1,0 +1,40 @@
+<%-- Flash message, chain-verified banner and stat tiles, shared by all dashboards. Needs "view". --%>
+<c:if test="${not empty flash}">
+    <div class="alert alert-info" role="status"><p><c:out value="${flash}"/></p></div>
+</c:if>
+
+<c:set var="report" value="${view.chainReport}"/>
+<c:choose>
+    <c:when test="${empty report}">
+        <div class="chain-banner pending" role="status">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#F5A524"/><path d="M12 7v5l3 2" stroke="#1A1446" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <div><strong>Chain check running…</strong>
+                <span class="small muted">${view.chainLength} blocks on the ledger. The first full verification finishes in a few seconds.</span></div>
+        </div>
+    </c:when>
+    <c:when test="${report.valid}">
+        <div class="chain-banner ok" role="status">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#157347"/><path d="m7.5 12.3 3 3 6-6.2" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><strong>Chain verified · ${report.blocksChecked} blocks intact</strong>
+                <span class="small muted">Every hash and link re-checked at ${report.checkedAtText}. Re-checked automatically every 2 minutes.
+                <c:if test="${view.pendingBlocks > 0}"> ${view.pendingBlocks} transaction(s) waiting to be mined.</c:if></span></div>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="chain-banner bad" role="alert">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#B42318"/><path d="M8.5 8.5l7 7m0-7-7 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <div><strong>Tamper alert - chain verification failed</strong>
+                <span class="small"><c:out value="${report.message}"/> (checked ${report.checkedAtText})</span></div>
+        </div>
+    </c:otherwise>
+</c:choose>
+
+<div class="stats ${fn:length(view.stats) == 4 ? 'cols-4' : ''}">
+    <c:forEach var="s" items="${view.stats}">
+        <div class="stat ${s.tone}">
+            <div class="value">${s.value}</div>
+            <div class="label"><c:out value="${s.label}"/></div>
+            <div class="hint"><c:out value="${s.hint}"/></div>
+        </div>
+    </c:forEach>
+</div>

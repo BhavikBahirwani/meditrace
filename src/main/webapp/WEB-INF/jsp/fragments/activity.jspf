@@ -1,0 +1,29 @@
+<%-- "Recent activity": the user's latest supply-chain transactions, read from MySQL. --%>
+<section class="card">
+    <h2>Recent activity</h2>
+    <c:choose>
+        <c:when test="${empty view.activity}">
+            <p class="empty">No supply-chain activity yet.</p>
+        </c:when>
+        <c:otherwise>
+            <ul class="list">
+                <c:forEach var="a" items="${view.activity}">
+                    <li>
+                        <span class="main">
+                            <span class="title"><c:out value="${a.headline}"/></span>
+                            <span class="sub"><span class="mono"><c:out value="${a.batchNo}"/></span> ·
+                                <c:out value="${a.productName}"/> · ${a.quantity} packs</span>
+                            <span class="sub">${a.timeText}</span>
+                        </span>
+                        <span class="side">
+                            <c:choose>
+                                <c:when test="${a.sealed}"><span class="pill genuine">Block #${a.blockIndex}</span></c:when>
+                                <c:otherwise><span class="pill warning">Mining…</span></c:otherwise>
+                            </c:choose>
+                        </span>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:otherwise>
+    </c:choose>
+</section>

@@ -1,0 +1,26 @@
+<%-- Site header: logo + navigation that changes when a user is signed in. --%>
+<header class="site-header">
+    <div class="container">
+        <a class="logo" href="${ctx}/" aria-label="MediTrace home">
+            <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M16 2 4 7v8c0 7.4 5.1 13.6 12 15 6.9-1.4 12-7.6 12-15V7L16 2z" fill="#6B0CF0"/>
+                <path d="m10.5 16.2 3.8 3.8 7.4-7.6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            MediTrace
+        </a>
+        <nav class="nav" aria-label="Main">
+            <c:choose>
+                <c:when test="${not empty sessionScope.currentUser}">
+                    <a class="btn btn-ghost btn-sm" href="${ctx}${sessionScope.currentUser.dashboardPath}">Dashboard</a>
+                    <form method="post" action="${ctx}/logout">
+                        <button class="btn btn-primary btn-sm" type="submit">Sign out</button>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <a class="btn btn-ghost btn-sm" href="${ctx}/login">Sign in</a>
+                    <a class="btn btn-primary btn-sm" href="${ctx}/register">Join</a>
+                </c:otherwise>
+            </c:choose>
+        </nav>
+    </div>
+</header>
