@@ -1,0 +1,8 @@
+# MediTrace database settings - TEMPLATE.
+# Copy this file to db.properties (same folder) and put your own MySQL password in it.
+# db.properties is git-ignored, so your password is never committed.
+
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/meditrace?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata&characterEncoding=UTF-8
+db.username=root
+db.password=CHANGE_ME

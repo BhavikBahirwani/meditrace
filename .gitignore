@@ -1,0 +1,42 @@
+# ---- Secrets: real DB credentials never go to Git (commit db.properties.example instead) ----
+src/main/resources/db.properties
+
+# ---- Maven ----
+target/
+.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+
+# ---- Eclipse ----
+.metadata/
+.settings/
+.classpath
+.project
+.factorypath
+bin/
+tmp/
+*.tmp
+*.bak
+local.properties
+.loadpath
+.recommenders/
+.apt_generated/
+.apt_generated_test/
+Servers/
+
+# ---- IntelliJ / VS Code ----
+.idea/
+*.iml
+.vscode/
+
+# ---- Java / logs / OS ----
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+.DS_Store
+Thumbs.db
+desktop.ini
