@@ -42,7 +42,7 @@ MediTrace answers three questions:
   - live stats, recent activity, stock and scans, all from the DB
   - a "chain verified" banner
 - **Seed data**: realistic Indian demo data, plus a scripted live tamper demo
-- **Tests**: 21 JUnit 5 tests for the blockchain, the Miner thread, passwords and JSON
+- **Tests**: 22 JUnit 5 tests for the blockchain, the Miner thread, passwords and JSON
 
 ## 3. Tech stack
 
@@ -148,6 +148,8 @@ source C:/meditrace/sql/schema.sql
 source C:/meditrace/sql/seed.sql
 ```
 (PowerShell has no `<` redirection, so use `source` or Workbench.)
+
+> **Resetting the demo data:** always **stop Tomcat first**, then run `schema.sql` **and** `seed.sql`, then start Tomcat. Re-running `schema.sql` while the app is running deletes the ledger underneath it. The dashboard then (correctly) shows a tamper alert, codes show *Not found* until `seed.sql` is loaded, and seeded rows stay *Waiting for miner*, because unsealed transactions are only queued at start-up.
 
 ### 7.2 Configure the database password
 ```powershell

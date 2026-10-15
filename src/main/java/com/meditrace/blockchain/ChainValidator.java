@@ -91,12 +91,20 @@ public class ChainValidator implements Runnable {
     /** Performs a full check right now and returns the report. */
     public ValidationReport validateNow() throws Exception {
         List<Block> stored = gateway.loadAllBlocks();
+        List<Block> memory = blockchain.getChainSnapshot();
+        // Fewer blocks in MySQL than in the running ledger means rows were deleted, typically
+        // because sql/schema.sql was re-run while Tomcat was running. Say so explicitly.
+        if (stored.size() < memory.size()) {
+            return ValidationReport.broken(stored.size(), stored.size(), "The blocks table holds "
+                    + stored.size() + " block(s) but the running ledger has " + memory.size()
+                    + ". Blocks were deleted (e.g. sql/schema.sql was re-run while Tomcat was running). "
+                    + "To reset the demo: stop Tomcat, run schema.sql and seed.sql, then start Tomcat.");
+        }
         ValidationReport report = Blockchain.validate(stored, blockchain.getDifficulty());
         if (!report.isValid()) {
             return report;
         }
         // Cross-check: the database copy must match the trusted in-memory copy block by block.
-        List<Block> memory = blockchain.getChainSnapshot();
         int common = Math.min(stored.size(), memory.size());
         for (int i = 0; i < common; i++) {
             if (!stored.get(i).getHash().equals(memory.get(i).getHash())) {

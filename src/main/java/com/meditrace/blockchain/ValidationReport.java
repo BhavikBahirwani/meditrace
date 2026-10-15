@@ -31,7 +31,7 @@ public final class ValidationReport {
     /** Factory for a successful run. */
     public static ValidationReport ok(int blocksChecked) {
         return new ValidationReport(true, blocksChecked, -1,
-                "All " + blocksChecked + " blocks verified - hashes and links intact.",
+                "All " + blocksChecked + " blocks link correctly - hashes and links intact.",
                 LocalDateTime.now());
     }
 

@@ -1,7 +1,11 @@
 -- =====================================================================
 --  MediTrace - database schema (MySQL 8)
 --  Run:  mysql -u root -p < sql/schema.sql      then   sql/seed.sql
---  WARNING: drops and re-creates all MediTrace tables.
+--  WARNING: drops and re-creates all MediTrace tables, including the blockchain.
+--  To reset the demo: STOP Tomcat first, run schema.sql then seed.sql, then start
+--  Tomcat. (If Tomcat keeps running, its in-memory chain no longer matches the
+--  emptied tables: the dashboard shows a tamper alert, packs show "Not found"
+--  until seed.sql runs, and seeded rows stay "Waiting for miner".)
 -- =====================================================================
 
 CREATE DATABASE IF NOT EXISTS meditrace

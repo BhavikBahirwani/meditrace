@@ -15,7 +15,7 @@
     <c:when test="${report.valid}">
         <div class="chain-banner ok" role="status">
             <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#157347"/><path d="m7.5 12.3 3 3 6-6.2" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div><strong>Chain verified · ${report.blocksChecked} blocks intact</strong>
+            <div><strong>Chain verified ✓ – ${report.blocksChecked} blocks link correctly</strong>
                 <span class="small muted">Every hash and link re-checked at ${report.checkedAtText}. Re-checked automatically every 2 minutes.
                 <c:if test="${view.pendingBlocks > 0}"> ${view.pendingBlocks} transaction(s) waiting to be mined.</c:if></span></div>
         </div>

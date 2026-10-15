@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -94,5 +95,19 @@ class MinerTest {
         ValidationReport report = validator.validateNow();
         assertTrue(report.isValid(), report.getMessage());
         assertEquals(3, report.getBlocksChecked());
+    }
+
+    @Test
+    @DisplayName("Validator flags a blocks table that was emptied while the app was running")
+    void validatorDetectsDeletedBlocks() throws Exception {
+        Blockchain chain = new Blockchain(Blockchain.DEFAULT_DIFFICULTY);
+        Miner miner = new Miner(chain, new InMemoryGateway(0));
+        miner.mineOne(MiningTask.of(1));
+
+        // The database now returns no blocks at all (e.g. schema.sql was re-run).
+        ChainValidator validator = new ChainValidator(chain, new InMemoryGateway(0), 120);
+        ValidationReport report = validator.validateNow();
+        assertFalse(report.isValid());
+        assertTrue(report.getMessage().contains("running ledger has 2"), report.getMessage());
     }
 }

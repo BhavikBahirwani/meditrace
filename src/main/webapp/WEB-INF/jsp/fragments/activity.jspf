@@ -17,8 +17,8 @@
                         </span>
                         <span class="side">
                             <c:choose>
-                                <c:when test="${a.sealed}"><span class="pill genuine">Block #${a.blockIndex}</span></c:when>
-                                <c:otherwise><span class="pill warning">Mining…</span></c:otherwise>
+                                <c:when test="${a.sealed}"><span class="pill genuine">Sealed · Block #${a.blockIndex}</span></c:when>
+                                <c:otherwise><span class="pill warning">Waiting for miner</span></c:otherwise>
                             </c:choose>
                         </span>
                     </li>
